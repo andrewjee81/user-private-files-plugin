@@ -401,7 +401,7 @@ function upf_get_download() {
 	if (isset($_GET['upf']) && isset($_GET['id'])) {
 		if (is_user_logged_in()) {
 			global $current_user;
-			get_currentuserinfo();
+			wp_get_current_user();
 
 			// if the file was not assigned to the current user, return 
 			if (get_post_meta($_GET['id'], 'upf_user', true) != $current_user->user_login) return;
@@ -521,7 +521,7 @@ function upf_list_user_files() {
 	if (!is_user_logged_in()) return;
 
 	global $current_user;
-    get_currentuserinfo();
+    wp_get_current_user();
 
 	
 	$current_url = get_permalink();
@@ -572,7 +572,7 @@ function upf_list_user_files() {
 		'meta_key' => 'upf_user', 
 		'meta_value' => $current_user->user_login,
 		'orderby' => 'date',
-		'order' => DESC
+		'order' => 'DESC'
 	);
 
 	if (!empty($_POST['upf_year'])) $args['year'] = $_POST['upf_year'];
@@ -648,7 +648,7 @@ function upf_userfile_cpt_template_filter( $content ) {
 	$output = "You are not authorized to access this page.";
 	if (is_user_logged_in()) {
 		global $current_user;
-		get_currentuserinfo();
+		wp_get_current_user();
 
 		// if the file was not assigned to the current user, return 
 		if (get_post_meta($post_id, 'upf_user', true) == $current_user->user_login) {
